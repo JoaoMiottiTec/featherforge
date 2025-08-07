@@ -1,0 +1,48 @@
+{
+  "name": "performance-noderust",
+  "version": "1.0.0",
+  "description": "I'Il make a API with node and Rust fusion get a max performance API boost",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+  "dev": "nodemon --watch src --exec tsx src/server.ts",
+  "build": "tsc",
+  "start": "node dist/server.js",
+  "test": "vitest",
+  "db:generate": "prisma generate",
+  "db:migrate": "prisma migrate dev",
+  "db:push": "prisma db push",
+  "db:studio": "prisma studio"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoaoMiottiTec/performance-nodeRust.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoaoMiottiTec/performance-nodeRust/issues"
+  },
+  "homepage": "https://github.com/JoaoMiottiTec/performance-nodeRust#readme",
+  "dependencies": {
+    "@prisma/client": "^6.13.0",
+    "@types/node": "^24.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/parser": "^8.39.0",
+    "dotenv": "^17.2.1",
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "fastify": "^5.4.0",
+    "prisma": "^6.13.0",
+    "supertest": "^7.1.4",
+    "vitest": "^3.2.4",
+    "zod": "^4.0.15"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
+  }
+}
