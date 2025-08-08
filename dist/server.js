@@ -1,0 +1,21 @@
+import Fastify from 'fastify';
+import dotenv from 'dotenv';
+import { registerRoutes } from 'routes/index.js';
+dotenv.config();
+const PORT = Number(process.env.PORT) || 3000;
+const HOST = '0.0.0.0';
+const app = Fastify({
+    logger: true
+});
+app.get('/', async () => {
+    return { message: 'Servidor Fastify rodando 🚀' };
+});
+await app.register(registerRoutes, { prefix: '/api/v1' });
+try {
+    await app.listen({ port: PORT, host: HOST });
+}
+catch (err) {
+    app.log.error(err);
+    process.exit(1);
+}
+export default app;
