@@ -1,4 +1,3 @@
-// src/plugins/jwt.ts
 import fp from 'fastify-plugin'
 import jwt from '@fastify/jwt'
 
