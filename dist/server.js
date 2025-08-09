@@ -1,12 +1,13 @@
 import Fastify from 'fastify';
 import dotenv from 'dotenv';
 import { registerRoutes } from 'routes/index.js';
+import { jwtPlugin } from 'plugins/jwt.js';
 dotenv.config();
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT);
 const HOST = '0.0.0.0';
-const app = Fastify({
-    logger: true
-});
+const app = Fastify({ logger: true });
+await app.register(jwtPlugin);
+await app.register(registerRoutes);
 app.get('/', async () => {
     return { message: 'Servidor Fastify rodando 🚀' };
 });
