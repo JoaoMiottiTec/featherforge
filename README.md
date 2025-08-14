@@ -1,21 +1,43 @@
-# Vita API (Jump Rope Health)
+# FeatherForge
 
-This project is a backend developed in **Node.js** with **TypeScript** and **Fastify**, designed to serve as a portfolio case and also as the foundation for a desktop application. The goal is to track jump rope training sessions, with future integration to a physical device (a rope with motor and sensors using Arduino) to collect metrics such as jump count, duration, and calories burned.
+This project is a backend developed in **Node.js** with **TypeScript** and **Fastify**, designed to serve as a portfolio case and also as the foundation for a desktop application. The goal is have a tiny CRUD core and a heavyweight AWS pipe
 
 The entire API will be documented and tested using Postman, including examples and environment variables for ease of use.
 
 ## Objectives
 
-* Create a robust, modular, and scalable API demonstrating senior-level development practices.
-* Enable registration and tracking of jump rope training sessions.
-* Integrate with a physical device via desktop application.
-* Provide training analysis and suggestions, initially mocked, and later powered by AI models.
+* Create a robust, modular, and scalable tiny API.
+* Containerized the API using Docker to scale the application
+* Building a pipe using github actions and send to AWS
+
+## Roadmap
+
+* [x] **API create** : Make a tiny API using Node.js and typescript
+* [ ] **Docker config** containerized a application
+* [ ] **CI/CD** with Github actions -> build, test, coverage, image push 
 
 ## Architecture
 
-* Modular domain structure (each module containing its routes, services, validations, and data models).
-* Centralized route registration.
-* TypeScript with ESM.
+The system follows a **modular monolith** design with clear domain boundaries, packaged into a single deployable service on AWS.
+
+* **Modular domain structure** — each module has its own routes, services, validations, and data models.
+* **Centralized route registration** — all modules are registered in one place for maintainability.
+* **TypeScript (ESM)** — modern syntax, strict typing.
+* **AWS-hosted** — containerized on **ECS Fargate**, with **RDS** for persistence and **CloudWatch** for logging/monitoring.
+
+
+## Quality & Security
+
+* **Testing** using vitest to unit and integration tests
+* **CI/CD** to automated pipe with build, test and deployment
+* **Lint Code** linting code with ESLint and TS
+* **Container** with image security scanning and variables builds
+
+## Prerequesites
+
+* Node.js 20 or later
+* Docker and Docker Compose
+* PostgreSQL
 
 ## Main Technologies
 
@@ -26,34 +48,56 @@ The entire API will be documented and tested using Postman, including examples a
 * Zod for validation
 * Vitest for testing
 * Nodemon and TSX for development
+* Docker
 
-## Initial Structure
+## Installation
 
-```
-src/
-├── server.ts                  # Main entry point
-├── routes/
-│   └── index.ts               # Main router
-└── modules/
-    └── sessions/
-        └── routes.ts          # Initial example module
-```
+### Option A: Docker Compose (Recommended)
 
-## Planned Modules (Development Order)
+1. Clone  the repository:
+   ```
+   Git clone https://github.com/JoaoMiottiTec/featherforge.git
+   cd featherforge
+   ```
+2. Configure environment variables:
+   ```
+   #Criar o arquivo .env
+       touch .env
+   ```
+3. Give a valor to the variable keys in .env:
+   ```
+   DATABASE_URL=
+    PORT=
+    HOST=
 
-1. **Auth & Users** – User registration, login, and profile management.
-2. **Sessions** – Training session logging (duration, effort, jump count).
-3. **Goals** – Weekly/monthly goal management.
-4. **Device** – Receiving data from Arduino device.
-5. **Analytics** – Training statistics and reports.
-6. **AI** – Training suggestions based on history.
-7. **Exports & Reports** – Exporting data to CSV/PDF.
-8. **Admin** – Minimal monitoring and management endpoints.
+    JWT_SECRET=
+    JWT_EXPIRES=
 
-## Documentation
+    JWT_REFRESH_SECRET=
+    JWT_REFRESH_EXPIRES=
+   ```
+4. Start the service:
+   ```
+   docker-compose up -d
+   ```
 
-All API documentation will be created and maintained in Postman, with examples and environment configurations for both development and production.
+## Planned Modules API (Development Order)
+
+1. **Auth & Users** – User registration, login, and profile management. [x]
+2. **Sessions** – Training session logging (duration, effort, jump count). []
+3. **Goals** – Weekly/monthly goal management. []
+4. **Device** – Receiving data from Arduino device. []
+5. **Analytics** – Training statistics and reports. []
+6. **AI** – Training suggestions based on history. []
+7. **Exports & Reports** – Exporting data to CSV/PDF. []
+
 
 ## Contributors
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if necessary
+5. Submit a pull request
 
-* João Miotti Dev
+## Developing:
+- João Vitor Miotti
