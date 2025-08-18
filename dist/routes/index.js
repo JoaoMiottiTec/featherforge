@@ -1,6 +1,6 @@
 import { sessionRoutes } from 'modules/sections/routes.js';
 import { authRoutes } from 'modules/users/routes.js';
 export async function registerRoutes(app) {
-    app.register(authRoutes, { prefix: '/api/v1/auth' });
-    app.register(sessionRoutes, { prefix: '/api/v1/sessions' });
+    app.register(authRoutes, { prefix: '/auth' });
+    app.register(sessionRoutes, { prefix: '/sessions' });
 }
