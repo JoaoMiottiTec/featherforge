@@ -1,16 +1,19 @@
-import argon2 from 'argon2'
-import { prisma } from '../../database/client.js'
-import {  conflict, notFound, unauthorized } from '../../core/errors.js'
-import { userSelect, userWithPasswordSelect } from './select.js'
-import { mapProfileCreate, mapProfileUpsert } from './helpers.js'
-import { LoginInput, SignupInput, UserUpdateInput } from './types.js'
+import argon2 from 'argon2';
+
+import { conflict, notFound, unauthorized } from '../../core/errors.js';
+import { prisma } from '../../database/client.js';
+import { mapProfileCreate, mapProfileUpsert } from './helpers.js';
+import { userSelect, userWithPasswordSelect } from './select.js';
+import type { LoginInput, SignupInput, UserUpdateInput } from './types.js';
 
 export const userService = {
   async create(input: SignupInput) {
-    const exists = await prisma.user.findUnique({ where: { email: input.email } })
-    if (exists) throw conflict('Email already registered')
+    const exists = await prisma.user.findUnique({
+      where: { email: input.email },
+    });
+    if (exists) throw conflict('Email already registered');
 
-    const hash = await argon2.hash(input.password)
+    const hash = await argon2.hash(input.password);
 
     const created = await prisma.user.create({
       data: {
@@ -19,25 +22,25 @@ export const userService = {
         profile: mapProfileCreate(input.profile),
       },
       select: userSelect,
-    })
+    });
 
-    return created
+    return created;
   },
 
   async findById(id: string) {
     const user = await prisma.user.findUnique({
       where: { id },
       select: userSelect,
-    })
-    if (!user) throw notFound('User not found')
-    return user
+    });
+    if (!user) throw notFound('User not found');
+    return user;
   },
 
   async findWithPasswordByEmail(email: string) {
     return prisma.user.findUnique({
       where: { email },
       select: userWithPasswordSelect,
-    })
+    });
   },
 
   async list(page = 1, pageSize = 20) {
@@ -49,13 +52,16 @@ export const userService = {
         select: userSelect,
       }),
       prisma.user.count(),
-    ])
-    return { items, total, page, pageSize }
+    ]);
+    return { items, total, page, pageSize };
   },
 
   async update(id: string, input: UserUpdateInput) {
-    const current = await prisma.user.findUnique({ where: { id }, select: { id: true } })
-    if (!current) throw notFound('User not found')
+    const current = await prisma.user.findUnique({
+      where: { id },
+      select: { id: true },
+    });
+    if (!current) throw notFound('User not found');
 
     try {
       const updated = await prisma.user.update({
@@ -65,37 +71,40 @@ export const userService = {
           profile: mapProfileUpsert(input.profile),
         },
         select: userSelect,
-      })
-      return updated
+      });
+      return updated;
     } catch (err: any) {
       if (err?.code === 'P2002' && err?.meta?.target?.includes('email')) {
-        throw conflict('Email already registered')
+        throw conflict('Email already registered');
       }
-      throw err
+      throw err;
     }
   },
 
   async remove(id: string) {
-    const user = await prisma.user.findUnique({ where: { id }, select: { id: true } })
-    if (!user) throw notFound('User not found')
-    await prisma.user.delete({ where: { id } })
-    return { deleted: true }
+    const user = await prisma.user.findUnique({
+      where: { id },
+      select: { id: true },
+    });
+    if (!user) throw notFound('User not found');
+    await prisma.user.delete({ where: { id } });
+    return { deleted: true };
   },
   async verifyLogin(input: LoginInput) {
     const user = await prisma.user.findUnique({
       where: { email: input.email },
       select: userWithPasswordSelect,
-    })
-    if (!user) throw unauthorized('Invalid credentials')
+    });
+    if (!user) throw unauthorized('Invalid credentials');
 
-    const ok = await argon2.verify(user.password, input.password)
-    if (!ok) throw unauthorized('Invalid credentials')
+    const ok = await argon2.verify(user.password, input.password);
+    if (!ok) throw unauthorized('Invalid credentials');
     const safe = await prisma.user.findUnique({
       where: { id: user.id },
       select: userSelect,
-    })
-    if (!safe) throw notFound('User not found')
+    });
+    if (!safe) throw notFound('User not found');
 
-    return safe
+    return safe;
   },
-}
+};

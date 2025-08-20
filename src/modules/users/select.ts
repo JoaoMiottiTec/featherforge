@@ -10,14 +10,14 @@ export const profileSelect = {
   injuries: true,
   createdAt: true,
   updatedAt: true,
-} as const
+} as const;
 
 export const userSelect = {
   id: true,
   email: true,
   createdAt: true,
   profile: { select: profileSelect },
-} as const
+} as const;
 
 export const userWithPasswordSelect = {
   id: true,
@@ -25,5 +25,4 @@ export const userWithPasswordSelect = {
   password: true,
   createdAt: true,
   profile: { select: profileSelect },
-} as const
-
+} as const;

@@ -6,55 +6,54 @@ The entire API will be documented and tested using Postman, including examples a
 
 ## Objectives
 
-* Create a robust, modular, and scalable tiny API.
-* Containerized the API using Docker to scale the application
-* Building a pipe using github actions and send to AWS
+- Create a robust, modular, and scalable tiny API.
+- Containerized the API using Docker to scale the application
+- Building a pipe using github actions and send to AWS
 
 ## Roadmap
 
-* [x] **API create** : Make a tiny API using Node.js and typescript
-* [ ] **Docker config** containerized a application
-* [ ] **CI/CD** with Github actions -> build, test, coverage, image push 
+- [x] **API create** : Make a tiny API using Node.js and typescript
+- [ ] **Docker config** containerized a application
+- [ ] **CI/CD** with Github actions -> build, test, coverage, image push
 
 ## Architecture
 
 The system follows a **modular monolith** design with clear domain boundaries, packaged into a single deployable service on AWS.
 
-* **Modular domain structure** — each module has its own routes, services, validations, and data models.
-* **Centralized route registration** — all modules are registered in one place for maintainability.
-* **TypeScript (ESM)** — modern syntax, strict typing.
-* **AWS-hosted** — containerized on **ECS Fargate**, with **RDS** for persistence and **CloudWatch** for logging/monitoring.
-
+- **Modular domain structure** — each module has its own routes, services, validations, and data models.
+- **Centralized route registration** — all modules are registered in one place for maintainability.
+- **TypeScript (ESM)** — modern syntax, strict typing.
+- **AWS-hosted** — containerized on **ECS Fargate**, with **RDS** for persistence and **CloudWatch** for logging/monitoring.
 
 ## Quality & Security
 
-* **Testing** using vitest to unit and integration tests
-* **CI/CD** to automated pipe with build, test and deployment
-* **Lint Code** linting code with ESLint and TS
-* **Container** with image security scanning and variables builds
+- **Testing** using vitest to unit and integration tests
+- **CI/CD** to automated pipe with build, test and deployment
+- **Lint Code** linting code with ESLint and TS
+- **Container** with image security scanning and variables builds
 
 ## Prerequesites
 
-* Node.js 20 or later
-* Docker and Docker Compose
-* PostgreSQL
+- Node.js 20 or later
+- Docker and Docker Compose
+- PostgreSQL
 
 ## Main Technologies
 
-* Node.js 22+
-* TypeScript
-* Fastify
-* Prisma ORM with PostgreSQL
-* Zod for validation
-* Vitest for testing
-* Nodemon and TSX for development
-* Docker
+- Node.js 22+
+- TypeScript
+- Fastify
+- Prisma ORM with PostgreSQL
+- Zod for validation
+- Vitest for testing
+- Nodemon and TSX for development
+- Docker
 
 ## Installation
 
 ### Option A: Docker Compose (Recommended)
 
-1. Clone  the repository:
+1. Clone the repository:
    ```
    Git clone https://github.com/JoaoMiottiTec/featherforge.git
    cd featherforge
@@ -65,6 +64,7 @@ The system follows a **modular monolith** design with clear domain boundaries, p
        touch .env
    ```
 3. Give a valor to the variable keys in .env:
+
    ```
    DATABASE_URL=
     PORT=
@@ -76,6 +76,7 @@ The system follows a **modular monolith** design with clear domain boundaries, p
     JWT_REFRESH_SECRET=
     JWT_REFRESH_EXPIRES=
    ```
+
 4. Start the service:
    ```
    docker-compose up -d
@@ -91,8 +92,8 @@ The system follows a **modular monolith** design with clear domain boundaries, p
 6. **AI** – Training suggestions based on history. []
 7. **Exports & Reports** – Exporting data to CSV/PDF. []
 
-
 ## Contributors
+
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
@@ -100,4 +101,5 @@ The system follows a **modular monolith** design with clear domain boundaries, p
 5. Submit a pull request
 
 ## Developing:
+
 - João Vitor Miotti

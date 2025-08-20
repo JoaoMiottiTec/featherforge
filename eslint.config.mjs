@@ -5,10 +5,33 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import prettier from 'eslint-config-prettier'
 
 export default tseslint.config(
-  { ignores: ['dist', 'coverage', 'node_modules', '.turbo', '.next'] },
-  js.configs.recommended,
+  {
+    ignores: [
+      'dist',
+      'coverage',
+      'node_modules',
+      '.turbo',
+      '.next',
+      'eslint.config.*',
+      '**/*.md',
+      '**/*.json',
+      '**/*.yml',
+      '**/*.yaml',
+      '**/*.prisma',
+      'docker-compose.yml',
+      '.prettierrc',
+    ],
+  },
+
+  {
+    files: ['**/*.js', '**/*.cjs', '**/*.mjs'],
+    ...js.configs.recommended,
+    languageOptions: { sourceType: 'module' },
+  },
+
   ...tseslint.configs.recommendedTypeChecked,
-  tseslint.configs.strictTypeChecked,
+  ...tseslint.configs.strictTypeChecked,
+
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
@@ -31,5 +54,6 @@ export default tseslint.config(
       'simple-import-sort/exports': 'error',
     },
   },
+
   prettier,
 )

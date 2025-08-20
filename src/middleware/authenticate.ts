@@ -1,9 +1,9 @@
-import type { FastifyRequest, FastifyReply } from 'fastify'
+import type { FastifyReply,FastifyRequest } from 'fastify';
 
 export async function authenticate(req: FastifyRequest, reply: FastifyReply) {
   try {
-    await req.jwtVerify()
+    await req.jwtVerify();
   } catch {
-    return reply.status(401).send({ status: 'error', message: 'Unauthorized' })
+    return reply.status(401).send({ status: 'error', message: 'Unauthorized' });
   }
 }

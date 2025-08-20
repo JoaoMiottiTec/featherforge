@@ -1,10 +1,10 @@
-import { SignupInput, UserUpdateInput } from "./types.js"
+import type { SignupInput, UserUpdateInput } from './types.js';
 
 const setNullable = <T>(v: T | null | undefined) =>
-  v === null ? null : v === undefined ? undefined : v
+  v === null ? null : v === undefined ? undefined : v;
 
 export function mapProfileCreate(input?: SignupInput['profile']) {
-  if (!input) return undefined
+  if (!input) return undefined;
   return {
     create: {
       age: input.age ?? undefined,
@@ -16,11 +16,11 @@ export function mapProfileCreate(input?: SignupInput['profile']) {
       goal: input.goal ?? undefined,
       injuries: input.injuries ?? undefined,
     },
-  }
+  };
 }
 
 export function mapProfileUpsert(input?: UserUpdateInput['profile']) {
-  if (!input) return undefined
+  if (!input) return undefined;
 
   const createData = {
     age: input.age ?? undefined,
@@ -31,7 +31,7 @@ export function mapProfileUpsert(input?: UserUpdateInput['profile']) {
     activityLevel: input.activityLevel ?? undefined,
     goal: input.goal ?? undefined,
     injuries: input.injuries ?? undefined,
-  }
+  };
 
   const updateData = {
     age: setNullable(input.age),
@@ -42,12 +42,12 @@ export function mapProfileUpsert(input?: UserUpdateInput['profile']) {
     activityLevel: setNullable(input.activityLevel),
     goal: setNullable(input.goal),
     injuries: input.injuries ?? undefined,
-  }
+  };
 
   return {
     upsert: {
       create: createData,
       update: updateData,
     },
-  }
+  };
 }

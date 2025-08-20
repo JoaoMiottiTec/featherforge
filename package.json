@@ -8,6 +8,7 @@
     "dev": "prisma generate && nodemon --watch src --exec tsx src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
+    "check": "npm run typecheck && npm run format && npm run lint",
     "test": "vitest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
