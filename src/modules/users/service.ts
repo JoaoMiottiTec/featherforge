@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import argon2 from 'argon2';
 
 import { conflict, notFound, unauthorized } from '../../core/errors.js';
@@ -73,8 +74,11 @@ export const userService = {
         select: userSelect,
       });
       return updated;
-    } catch (err: any) {
-      if (err?.code === 'P2002' && err?.meta?.target?.includes('email')) {
+    } catch (err: unknown) {
+      if (
+        err instanceof Prisma.PrismaClientKnownRequestError &&
+        err.code === 'P2002'
+      ) {
         throw conflict('Email already registered');
       }
       throw err;

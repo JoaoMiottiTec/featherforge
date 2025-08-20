@@ -15,7 +15,7 @@ registerErrorHandler(app);
 await app.register(jwtPlugin);
 await app.register(registerRoutes);
 
-app.get('/', async () => {
+app.get('/', () => {
   return { message: 'Servidor Fastify rodando 🚀' };
 });
 

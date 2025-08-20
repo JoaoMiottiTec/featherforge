@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const Email = z.string().email().trim().toLowerCase();
+const Email = z.email().trim().toLowerCase();
 const Password = z.string().min(8).max(72);
 
 export const Sex = z.enum(['male', 'female', 'other']);

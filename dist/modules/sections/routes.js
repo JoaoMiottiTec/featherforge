@@ -1,8 +1,8 @@
-export async function sessionRoutes(app) {
-    app.get('/', async () => {
+export function sessionRoutes(app) {
+    app.get('/', () => {
         return { message: 'Listar sessões (mock)' };
     });
-    app.post('/', async (request, reply) => {
+    app.post('/', () => {
         return { message: 'Criar nova sessão (mock)' };
     });
 }

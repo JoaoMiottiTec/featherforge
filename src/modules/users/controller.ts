@@ -1,4 +1,4 @@
-import type { FastifyReply,FastifyRequest } from 'fastify';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 
 import { asyncHandler } from '../../core/asyncHandler.js';
 import { userService } from './service.js';
@@ -42,7 +42,7 @@ export const userController = {
   }),
 
   updateMe: asyncHandler(async (req: FastifyRequest, reply: FastifyReply) => {
-    const parsed = userUpdateSchema.safeParse((req as any).body);
+    const parsed = userUpdateSchema.safeParse(req.body);
     if (!parsed.success) {
       return reply.status(422).send({
         status: 'error',
@@ -54,19 +54,19 @@ export const userController = {
       });
     }
 
-    const id = (req.user as any).sub;
+    const id = req.user.sub;
     const user = await userService.update(id, parsed.data);
     return reply.status(200).send({ data: user });
   }),
 
   me: asyncHandler(async (req: FastifyRequest) => {
-    const id = (req.user as any).sub;
+    const id = req.user.sub;
     const user = await userService.findById(id);
     return { data: user };
   }),
 
   deleteMe: asyncHandler(async (req: FastifyRequest) => {
-    const id = (req.user as any).sub;
+    const id = req.user.sub;
     const result = await userService.remove(id);
     return { data: result };
   }),

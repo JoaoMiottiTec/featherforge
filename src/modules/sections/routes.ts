@@ -1,11 +1,11 @@
 import type { FastifyInstance } from 'fastify';
 
-export async function sessionRoutes(app: FastifyInstance) {
-  app.get('/', async () => {
+export function sessionRoutes(app: FastifyInstance) {
+  app.get('/', () => {
     return { message: 'Listar sessões (mock)' };
   });
 
-  app.post('/', async (request, reply) => {
+  app.post('/', () => {
     return { message: 'Criar nova sessão (mock)' };
   });
 }

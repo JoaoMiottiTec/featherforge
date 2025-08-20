@@ -1,8 +1,8 @@
-import js from '@eslint/js'
-import tseslint from 'typescript-eslint'
-import n from 'eslint-plugin-n'
-import simpleImportSort from 'eslint-plugin-simple-import-sort'
-import prettier from 'eslint-config-prettier'
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import n from 'eslint-plugin-n';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import prettier from 'eslint-config-prettier';
 
 export default tseslint.config(
   {
@@ -46,8 +46,14 @@ export default tseslint.config(
       'n/no-unsupported-features/es-syntax': 'off',
 
       '@typescript-eslint/consistent-type-imports': 'error',
-      '@typescript-eslint/no-floating-promises': ['error', { ignoreVoid: true }],
-      '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: { attributes: false } }],
+      '@typescript-eslint/no-floating-promises': [
+        'error',
+        { ignoreVoid: true },
+      ],
+      '@typescript-eslint/no-misused-promises': [
+        'error',
+        { checksVoidReturn: { attributes: false } },
+      ],
       '@typescript-eslint/require-await': 'error',
 
       'simple-import-sort/imports': 'error',
@@ -55,5 +61,5 @@ export default tseslint.config(
     },
   },
 
-  prettier,
-)
+  prettier
+);

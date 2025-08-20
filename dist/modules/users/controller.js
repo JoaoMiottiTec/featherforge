@@ -8,7 +8,10 @@ export const userController = {
             return reply.status(422).send({
                 status: 'error',
                 message: 'Validation failed',
-                details: parsed.error.issues.map(i => ({ path: i.path, message: i.message })),
+                details: parsed.error.issues.map((i) => ({
+                    path: i.path,
+                    message: i.message,
+                })),
             });
         }
         const user = await userService.verifyLogin(parsed.data);
@@ -21,7 +24,10 @@ export const userController = {
             return reply.status(422).send({
                 status: 'error',
                 message: 'Validation failed',
-                details: parsed.error.issues.map(i => ({ path: i.path, message: i.message })),
+                details: parsed.error.issues.map((i) => ({
+                    path: i.path,
+                    message: i.message,
+                })),
             });
         }
         const user = await userService.create(parsed.data);
@@ -34,7 +40,10 @@ export const userController = {
             return reply.status(422).send({
                 status: 'error',
                 message: 'Validation failed',
-                details: parsed.error.issues.map(i => ({ path: i.path, message: i.message })),
+                details: parsed.error.issues.map((i) => ({
+                    path: i.path,
+                    message: i.message,
+                })),
             });
         }
         const id = req.user.sub;
