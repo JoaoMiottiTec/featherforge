@@ -1,15 +1,16 @@
-import type { FastifyInstance } from 'fastify'
-import { authenticate } from '../../middleware/authenticate.js'
-import { userController } from './controller.js'
+import type { FastifyInstance } from 'fastify';
 
-export async function authRoutes(app: FastifyInstance) {
-  app.post('/signup', userController.signup)
-  app.post('/login', userController.login)
+import { authenticate } from '../../middleware/authenticate.js';
+import { userController } from './controller.js';
 
-  app.register(async (priv) => {
-    priv.addHook('onRequest', authenticate)
-    priv.get('/me', userController.me)
-    priv.put('/me', userController.updateMe)
-    priv.delete('/me', userController.deleteMe)
-  })
+export function authRoutes(app: FastifyInstance) {
+  app.post('/signup', userController.signup);
+  app.post('/login', userController.login);
+
+  app.register((priv) => {
+    priv.addHook('onRequest', authenticate);
+    priv.get('/me', userController.me);
+    priv.put('/me', userController.updateMe);
+    priv.delete('/me', userController.deleteMe);
+  });
 }
