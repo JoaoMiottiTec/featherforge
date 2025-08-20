@@ -1,57 +1,52 @@
 name: CI
 
-on: 
-    pull_request:
-    push:
-      branches: ["main"]
+on:
+  pull_request:
+  push:
+    branches: ['main']
 
 concurrency:
-    group: ci-${{ github.ref }}
-    cancel-in-progress: true
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-    ci:
-        name: Lint (Prettier) + (ESLint) + Build + Tests
-        runs-on: ubuntu-latest
+  ci:
+    name: Lint (Prettier) + (ESLint) + Build + Tests
+    runs-on: ubuntu-latest
 
-        services:
-            postgres:
-                image: postgres:16-alpine
-                env:
-                    POSTGRES_USER: app
-                    POSTGRES_PASSWORD: app
-                    POSTGRES_DB: appdb
-                ports:
-                    - 5432:5432
-                options: >-
-                    --health-cmd="pg_isready -U app"
-                    --health-interval=10s
-                    --health-timeout=5s
-                    --health-retries=5
-        steps:
-           - name: Checkout code
-             uses: actions/checkout@v4
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app
+          POSTGRES_DB: appdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U app"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-           - name: Setup Node.js
-             uses: actions/setup-node@v4
-             with:
-                node-version: "20"
-           
-           - name: Install dependecies
-             run: npm ci
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-           - name: Run lint (ESLint)
-             run: npm run lint
+      - name: Install dependecies
+        run: npm ci
 
-           - name: Run Prettier Checl
-             run: npm run format:check
+      - name: Run Prettier and lint Check
+        run: npm run check
 
-           - name: Build project
-             run: npm run build
+      - name: Build project
+        run: npm run build
 
-           - name: Run tests
-             env:
-                DATABASE_URL: postgres://app:app@localhost:5432/appdb
-             run: npm test
-
-             
+      - name: Run tests
+        env:
+          DATABASE_URL: postgres://app:app@localhost:5432/appdb
+        run: npm test
