@@ -13,8 +13,8 @@ The entire API will be documented and tested using Postman, including examples a
 ## Roadmap
 
 - [x] **API create** : Make a tiny API using Node.js and typescript
-- [ ] **Docker config** containerized a application
-- [ ] **CI/CD** with Github actions -> build, test, coverage, image push
+- [x] **Docker config** containerized a application
+- [x] **CI/CD** with Github actions -> build, test, coverage, image push
 
 ## Architecture
 
