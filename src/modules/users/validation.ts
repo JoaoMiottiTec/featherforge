@@ -4,7 +4,7 @@ const Email = z.email().trim().toLowerCase();
 const Password = z.string().min(8).max(72);
 
 export const Sex = z.enum(['male', 'female', 'other']);
-export const ActivityLevel = z.enum(['low', 'medium', 'high']);
+export const activityLvl = z.enum(['low', 'medium', 'high']);
 
 const Goal = z.string().trim().max(200);
 
@@ -17,7 +17,7 @@ const profileCreateSchema = z
     heightCm: z.coerce.number().int().min(50).max(260).optional(),
     weightKg: z.coerce.number().int().min(20).max(500).optional(),
     targetWeightKg: z.coerce.number().int().min(20).max(500).optional(),
-    activityLevel: ActivityLevel.optional(),
+    activityLvl: activityLvl.optional(),
     goal: Goal.optional(),
     injuries: Injuries.optional(),
   })
@@ -36,7 +36,7 @@ const profileUpdateSchema = z
       .max(500)
       .nullable()
       .optional(),
-    activityLevel: ActivityLevel.nullable().optional(),
+    activityLvl: activityLvl.nullable().optional(),
     goal: Goal.nullable().optional(),
     injuries: Injuries.optional(),
   })
