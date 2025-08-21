@@ -3,8 +3,10 @@ name: Release Docker
 on:
   push:
     tags:
-      - 'v1.0.0'
-
+      - 'v*.*.*'
+  release:
+    types: [published]
+  workflow_dispatch:
 jobs:
   docker:
     runs-on: ubuntu-latest
