@@ -4,7 +4,7 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "lib": ["ES2022"],
-    "types": ["node"],
+    "types": ["vitest", "node"],
     "esModuleInterop": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -12,6 +12,6 @@
     "outDir": "dist",
     "baseUrl": "./src"
   },
-  "include": ["src"],
+  "include": ["src", "tests"],
   "exclude": ["node_modules", "dist"]
 }
