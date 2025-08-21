@@ -12,7 +12,7 @@ export function mapProfileCreate(input?: SignupInput['profile']) {
       heightCm: input.heightCm ?? undefined,
       weightKg: input.weightKg ?? undefined,
       targetWeightKg: input.targetWeightKg ?? undefined,
-      activityLevel: input.activityLevel ?? undefined,
+      activityLvl: input.activityLvl ?? undefined,
       goal: input.goal ?? undefined,
       injuries: input.injuries ?? undefined,
     },
@@ -28,7 +28,7 @@ export function mapProfileUpsert(input?: UserUpdateInput['profile']) {
     heightCm: input.heightCm ?? undefined,
     weightKg: input.weightKg ?? undefined,
     targetWeightKg: input.targetWeightKg ?? undefined,
-    activityLevel: input.activityLevel ?? undefined,
+    activityLvl: input.activityLvl ?? undefined,
     goal: input.goal ?? undefined,
     injuries: input.injuries ?? undefined,
   };
@@ -39,7 +39,7 @@ export function mapProfileUpsert(input?: UserUpdateInput['profile']) {
     heightCm: setNullable(input.heightCm),
     weightKg: setNullable(input.weightKg),
     targetWeightKg: setNullable(input.targetWeightKg),
-    activityLevel: setNullable(input.activityLevel),
+    activityLvl: setNullable(input.activityLvl),
     goal: setNullable(input.goal),
     injuries: input.injuries ?? undefined,
   };

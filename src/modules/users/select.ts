@@ -5,7 +5,7 @@ export const profileSelect = {
   heightCm: true,
   weightKg: true,
   targetWeightKg: true,
-  activityLevel: true,
+  activityLvl: true,
   goal: true,
   injuries: true,
   createdAt: true,
