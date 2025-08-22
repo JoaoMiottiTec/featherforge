@@ -4,9 +4,7 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import prettier from 'eslint-config-prettier';
 
 export default tseslint.config(
-  {
-    ignores: ['dist/**', 'node_modules/**', 'coverage/**'],
-  },
+  { ignores: ['dist/**', 'node_modules/**', 'coverage/**'] },
 
   {
     files: ['src/**/*.{ts,tsx,js,jsx}'],
@@ -23,7 +21,10 @@ export default tseslint.config(
     files: ['src/**/*.{ts,tsx}'],
     extends: [...tseslint.configs.strictTypeChecked],
     languageOptions: {
-      parserOptions: { project: true, tsconfigRootDir: import.meta.dirname },
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     rules: {
       '@typescript-eslint/consistent-type-imports': 'error',
@@ -49,9 +50,8 @@ export default tseslint.config(
 
   {
     files: ['tests/**/*.{ts,tsx}'],
-    extends: [...tseslint.configs.strictTypeChecked],
+    extends: [...tseslint.configs.strict],
     languageOptions: {
-      parserOptions: { project: true, tsconfigRootDir: import.meta.dirname },
       globals: {
         vi: true,
         describe: true,

@@ -1,8 +1,9 @@
 import dotenv from 'dotenv';
 import Fastify from 'fastify';
-import { registerErrorHandler } from 'middleware/errorHandler.js';
-import { jwtPlugin } from 'plugins/jwt.js';
-import { registerRoutes } from 'routes/index.js';
+
+import { registerErrorHandler } from './middleware/errorHandler.js';
+import { jwtPlugin } from './plugins/jwt.js';
+import { registerRoutes } from './routes/index.js';
 
 dotenv.config();
 
