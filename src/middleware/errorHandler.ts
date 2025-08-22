@@ -1,6 +1,7 @@
-import { AppError } from 'core/errors.js';
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import type { FastifyError } from 'fastify';
+
+import { AppError } from '../core/errors.js';
 
 export function registerErrorHandler(app: FastifyInstance) {
   app.setErrorHandler(

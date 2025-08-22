@@ -10,7 +10,7 @@ if [ "${NODE_ENV}" = "production" ]; then
   npx prisma migrate deploy
 else
   log "Dev mode: running 'prisma migrate dev' (idempotent)..."
-  npx prisma migrate dev --name init || true
+  npx prisma db push
 fi
 
 log "Starting app: $@"
