@@ -47,6 +47,15 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile --ignore-scripts
 
+      - name: Schema drift check (Supabase vs schema.prisma)
+        env:
+          DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
+        run: |
+          pnpm prisma migrate diff \
+            --from-url "$DATABASE_URL" \
+            --to-schema-datamodel ./prisma/schema.prisma \
+            --exit-code
+
       - name: Generate Prisma client
         run: pnpm prisma generate
 
