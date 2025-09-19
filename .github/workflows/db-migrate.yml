@@ -1,0 +1,39 @@
+name: DB Migrate (manual)
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install deps
+        run: pnpm i --frozen-lockfile
+
+      - name: Prisma migrate deploy
+        run: pnpm prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
+
+      - name: Prisma generate (atualiza client)
+        run: pnpm prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}

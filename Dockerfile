@@ -2,37 +2,36 @@ FROM node:20-alpine AS base
 WORKDIR /app
 RUN apk add --no-cache libc6-compat openssl
 
-
+# ---- deps (production) ----
 FROM base AS deps-prod
-COPY package.json package-lock.json* ./
-RUN npm ci --omit=dev
+COPY package.json pnpm-lock.yaml* ./
+RUN corepack enable && pnpm i --frozen-lockfile --prod
 
+# ---- build ----
 FROM base AS build
-COPY package.json package-lock.json* ./
-RUN npm ci
+COPY package.json pnpm-lock.yaml* ./
+RUN corepack enable && pnpm i --frozen-lockfile
 COPY tsconfig.json ./
 COPY prisma ./prisma
-RUN npx prisma generate
+RUN pnpm prisma generate
 COPY src ./src
-RUN npm run build
+RUN pnpm run build
 
-# ------ dev file with hot reload
-
+# ---- dev (hot reload) ----
 FROM node:20-alpine AS dev
 WORKDIR /app
 RUN apk add --no-cache bash libc6-compat openssl
-COPY package.json package-lock.json* ./
-RUN npm ci
+COPY package.json pnpm-lock.yaml* ./
+RUN corepack enable && pnpm i --frozen-lockfile
 COPY prisma ./prisma
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-RUN npx prisma generate
-
+RUN pnpm prisma generate
 EXPOSE 3000
 ENTRYPOINT [ "/entrypoint.sh" ]
-CMD [ "npm", "run", "dev" ]
+CMD [ "pnpm", "run", "dev" ]
 
-# ------ production file
+# ---- production ----
 FROM node:20-alpine AS prod
 ENV NODE_ENV=production
 WORKDIR /app
