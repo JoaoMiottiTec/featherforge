@@ -38,4 +38,20 @@ jobs:
           api_token: ${{ secrets.KOYEB_API_TOKEN }}
 
       - name: Deploy to Koyeb
-        run: koyeb service update possible-flamingo/featherforge --git-sha $GITHUB_SHA
+        run:
+          koyeb service update possible-flamingo/featherforge --git-sha $GITHUB_SHA \
+          --env SENTRY_DSN="${{ secrets.SENTRY_DSN }}"
+
+      - name: Smoke check /health
+        run: |
+          URL="https://possible-flamingo-joaomiottitech-ff1fb8424.koyeb.app/health"
+          for i in $(seq 1 30); do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$URL" || true)
+            echo "try $i: $code"
+            [ "$code" = "200" ] && exit 0
+            sleep 3
+          done
+          echo "healthcheck failed"; exit 1
+
+      - name: Set Sentry release env
+        run: echo "SENTRY_RELEASE=$GITHUB_SHA" >> $GITHUB_ENV

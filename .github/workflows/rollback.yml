@@ -1,0 +1,19 @@
+name: Rollback (Koyeb)
+on: { workflow_dispatch: {} }
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Koyeb CLI
+        uses: koyeb-community/koyeb-actions@v2
+        with:
+          api_token: ${{ secrets.KOYEB_API_TOKEN }}
+
+      - name: Redeploy previous deployment
+        run: |
+          # pega o penúltimo deployment do service
+          DEPLOY_ID=$(koyeb service get possible-flamingo/featherforge --output json \
+            | jq -r '.service.deployments[1].id')
+          echo "Rolling back to $DEPLOY_ID"
+          koyeb deployment redeploy "$DEPLOY_ID"

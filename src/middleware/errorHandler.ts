@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/node';
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import type { FastifyError } from 'fastify';
 
@@ -5,12 +6,22 @@ import { AppError } from '../core/errors.js';
 
 export function registerErrorHandler(app: FastifyInstance) {
   app.setErrorHandler(
-    (
-      error: FastifyError | Error,
-      _req: FastifyRequest,
-      reply: FastifyReply
-    ) => {
+    (error: FastifyError | Error, req: FastifyRequest, reply: FastifyReply) => {
+      const route = req.routeOptions.url ?? req.url;
+      const method = req.method;
+      const fastifyStatus =
+        typeof (error as FastifyError).statusCode === 'number'
+          ? (error as FastifyError).statusCode
+          : undefined;
+
       if (error instanceof AppError) {
+        Sentry.captureMessage(error.message, {
+          level: 'warning',
+          tags: { method, route, kind: 'AppError' },
+          extra: { details: error.details },
+          fingerprint: ['AppError', route, error.message],
+        });
+
         const status = Number.isInteger(error.status) ? error.status : 400;
         const body = {
           status: 'error' as const,
@@ -21,17 +32,22 @@ export function registerErrorHandler(app: FastifyInstance) {
         return;
       }
 
-      const fastifyStatus =
-        typeof (error as FastifyError).statusCode === 'number'
-          ? (error as FastifyError).statusCode
-          : undefined;
-
       const status = fastifyStatus ?? 500;
-      const message = error.message;
+      Sentry.captureException(error, {
+        level: 'error',
+        tags: { method, route, status: String(status) },
+        extra: {
+          params: req.params,
+          query: req.query,
+          body: req.body,
+          headers: req.headers,
+        },
+        fingerprint: [error.name || 'Error', route],
+      });
 
       void reply.status(status).send({
         status: 'error' as const,
-        message,
+        message: error.message,
       });
     }
   );
