@@ -6,10 +6,9 @@ log() { echo "[entrypoint] $*"; }
 log "NODE_ENV=${NODE_ENV:-unset}"
 
 if [ "${NODE_ENV}" = "production" ]; then
-  log "Applying Prisma migrations (deploy)..."
-  npx prisma migrate deploy
+  log "Production mode: skipping migrations (handled in CI/CD)"
 else
-  log "Dev mode: running 'prisma migrate dev' (idempotent)..."
+  log "Dev mode: syncing schema..."
   npx prisma db push
 fi
 
