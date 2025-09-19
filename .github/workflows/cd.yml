@@ -42,7 +42,7 @@ jobs:
 
       - name: Smoke check /health
         run: |
-          URL="https://possible-flamingo-joaomiottitech-ff1fb8424.koyeb.app/health"
+          URL="https://possible-flamingo-joaomiottitech-ff1fb8424.koyeb.app/"
           for i in $(seq 1 30); do
             code=$(curl -s -o /dev/null -w "%{http_code}" "$URL" || true)
             echo "try $i: $code"
