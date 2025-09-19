@@ -38,4 +38,4 @@ jobs:
           api_token: ${{ secrets.KOYEB_API_TOKEN }}
 
       - name: Deploy to Koyeb
-        run: koyeb service update featherforge/featherforge --git-sha $GITHUB_SHA
+        run: koyeb service update possible-flamingo/featherforge --git-sha $GITHUB_SHA
