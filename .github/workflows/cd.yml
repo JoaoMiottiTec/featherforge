@@ -39,8 +39,8 @@ jobs:
 
       - name: Deploy to Koyeb
         run:
-          koyeb service update possible-flamingo/featherforge --git-sha $GITHUB_SHA \
-          --env SENTRY_DSN="${{ secrets.SENTRY_DSN }}"
+          koyeb services update possible-flamingo/featherforge --git-sha "$GITHUB_SHA" --env SENTRY_DSN="${{ secrets.SENTRY_DSN }}"
+
 
       - name: Smoke check /health
         run: |
