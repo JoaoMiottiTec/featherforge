@@ -29,7 +29,6 @@ app.get('/', () => {
   return { message: 'Servidor Fastify rodando 🚀' };
 });
 
-
 await app.register(registerRoutes, { prefix: '/api/v1' });
 
 try {
