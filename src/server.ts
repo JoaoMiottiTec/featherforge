@@ -29,6 +29,14 @@ app.get('/', () => {
   return { message: 'Servidor Fastify rodando 🚀' };
 });
 
+app.get('/health', async (_req, reply) => {
+  reply.status(200).send({
+    status: 'ok',
+    commit: process.env.SENTRY_RELEASE,
+    uptime: process.uptime(),
+  })
+})
+
 await app.register(registerRoutes, { prefix: '/api/v1' });
 
 try {
