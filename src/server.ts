@@ -1,35 +1,58 @@
-import * as Sentry from '@sentry/node';
-import dotenv from 'dotenv';
-import Fastify from 'fastify';
+import './config/env.js';
+import './instrumentation/sentry.js';
+import 'dotenv/config';
 
+import { randomUUID } from 'node:crypto';
+
+import Fastify from 'fastify';
+import pino from 'pino';
+
+import { Sentry } from './instrumentation/sentry.js';
 import { registerErrorHandler } from './middleware/errorHandler.js';
 import { jwtPlugin } from './plugins/jwt.js';
+import { requestLoggingPlugin } from './plugins/request-logging.js';
 import { registerRoutes } from './routes/index.js';
 
-dotenv.config();
+const app = Fastify({
+  logger: {
+    level: process.env.LOG_LEVEL || 'info',
+    redact: {
+      paths: [
+        'req.headers.authorization',
+        'req.body.password',
+        'req.body.token',
+        'res.headers["set-cookie"]',
+      ],
+      censor: '[REDACTED]',
+    },
+    base: {
+      service: 'featherforge',
+      env: process.env.NODE_ENV,
+      version: process.env.SENTRY_RELEASE,
+    },
+    timestamp: pino.stdTimeFunctions.epochTime,
+  },
 
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  environment: process.env.NODE_ENV,
-  release: process.env.SENTRY_RELEASE,
-  tracesSampleRate: 0.1,
-  profilesSampleRate: 0.1,
+  genReqId: (req) => (req.headers['x-request-id'] as string) || randomUUID(),
+  requestIdHeader: 'x-request-id',
+  requestIdLogLabel: 'requestId',
+
+  disableRequestLogging: true,
 });
 
-const PORT = Number(process.env.PORT);
-const HOST = '0.0.0.0';
-
-const app = Fastify({ logger: true });
 registerErrorHandler(app);
 
 await app.register(jwtPlugin);
-await app.register(registerRoutes);
+await app.register(requestLoggingPlugin);
 
 app.get('/', () => {
   return { message: 'Servidor Fastify rodando 🚀' };
 });
 
 await app.register(registerRoutes, { prefix: '/api/v1' });
+
+const PORT = Number(process.env.PORT || 3000);
+const HOST = '0.0.0.0';
 
 try {
   await app.listen({ port: PORT, host: HOST });
