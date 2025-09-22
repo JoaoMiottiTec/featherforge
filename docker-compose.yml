@@ -3,7 +3,7 @@ services:
     image: grafana/loki:2.9.0
     command: -config.file=/etc/loki/config.yaml
     ports:
-      - "3100:3100"
+      - '3100:3100'
     volumes:
       - ./observability/loki-config.yaml:/etc/loki/config.yaml
 
@@ -20,7 +20,7 @@ services:
   grafana:
     image: grafana/grafana:10.4.3
     ports:
-      - "3001:3000"
+      - '3001:3000'
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: admin
@@ -63,9 +63,9 @@ services:
     ports:
       - '3000:3000'
     labels:
-      - "logs=true"
-      - "service=featherforge"
-      - "env=prod"
+      - 'logs=true'
+      - 'service=featherforge'
+      - 'env=prod'
 
   api-dev:
     profiles:
@@ -89,9 +89,9 @@ services:
     ports:
       - 3000:3000
     labels:
-      - "logs=true"
-      - "service=featherforge"
-      - "env=dev"
+      - 'logs=true'
+      - 'service=featherforge'
+      - 'env=dev'
 
 volumes:
   db_data: {}

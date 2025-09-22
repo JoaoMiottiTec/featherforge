@@ -35,5 +35,5 @@ scrape_configs:
       - source_labels: ['__meta_docker_container_label_env']
         target_label: 'env'
       - source_labels: ['__meta_docker_container_label_logs']
-        regex: "true"
+        regex: 'true'
         action: keep
